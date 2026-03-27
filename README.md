@@ -21,8 +21,6 @@ Prototyp for visuell bokning av arbetsplatser. Istallet for att valja fran en li
 
 **https://cola500.github.io/office-map-booking/**
 
-![Kontorsplanritning](Kontoret.png)
-
 ## Hur det fungerar
 
 - En planritning visas som bakgrund
