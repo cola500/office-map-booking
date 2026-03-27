@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boka arbetsplats</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: "Segoe UI", system-ui, sans-serif; background: #f5f5f5; color: #333; }
+.app { max-width: 1200px; margin: 0 auto; padding: 20px; }
+.app h1 { font-size: 24px; font-weight: 600; color: #1a1a1a; }
+.app p { font-size: 14px; color: #666; margin-top: 4px; margin-bottom: 16px; }
+.map-container { width: 100%; background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); overflow: hidden; }
+.map-inner { position: relative; }
+.map-inner img { width: 100%; display: block; user-select: none; }
+
+/* Filter bar */
+.filter-bar { display: flex; gap: 8px; margin-bottom: 12px; }
+.filter-btn { padding: 6px 14px; font-size: 13px; font-family: inherit; border: 1px solid #d1d5db; border-radius: 6px; background: #fff; color: #555; cursor: pointer; transition: all 0.15s ease; }
+.filter-btn:hover { border-color: #9ca3af; color: #333; }
+.filter-btn--active { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+.filter-btn--active:hover { background: #333; border-color: #333; }
+
+/* Hotspot base */
+.hotspot { position: absolute; display: block; border: 2px solid; border-radius: 4px; cursor: pointer; transition: all 0.2s ease; text-decoration: none; }
+
+/* Status colors */
+.hotspot--available { background: rgba(34,197,94,0.2); border-color: rgba(34,197,94,0.6); }
+.hotspot--busy { background: rgba(239,68,68,0.2); border-color: rgba(239,68,68,0.6); }
+
+.hotspot--available:hover { background: rgba(34,197,94,0.35); border-color: rgba(34,197,94,0.9); box-shadow: 0 0 12px rgba(34,197,94,0.3); }
+.hotspot--busy:hover { background: rgba(239,68,68,0.35); border-color: rgba(239,68,68,0.9); box-shadow: 0 0 12px rgba(239,68,68,0.3); }
+
+/* Tooltip */
+.tooltip { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: #1a1a1a; color: #fff; font-size: 12px; padding: 4px 10px; border-radius: 4px; white-space: nowrap; pointer-events: none; display: none; }
+.tooltip::after { content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: #1a1a1a; }
+.hotspot:hover .tooltip { display: block; }
+
+/* Legend */
+.legend { display: flex; gap: 20px; margin-top: 12px; font-size: 13px; color: #666; }
+.legend span { display: flex; align-items: center; gap: 6px; }
+.dot { width: 12px; height: 12px; border-radius: 3px; border: 2px solid; display: inline-block; }
+.dot--available { background: rgba(34,197,94,0.2); border-color: rgba(34,197,94,0.6); }
+.dot--busy { background: rgba(239,68,68,0.2); border-color: rgba(239,68,68,0.6); }
+
+.error { color: #c00; padding: 20px; text-align: center; }
+</style>
+</head>
+<body>
+<div class="app">
+  <h1>Boka arbetsplats</h1>
+  <p>Klicka p&aring; en arbetsplats f&ouml;r att boka</p>
+  <div class="filter-bar" id="filters">
+    <button class="filter-btn filter-btn--active" data-filter="all">Visa alla</button>
+    <button class="filter-btn" data-filter="available">Endast lediga</button>
+    <button class="filter-btn" data-filter="busy">Endast upptagna</button>
+  </div>
+  <div class="map-container">
+    <div class="map-inner" id="map"></div>
+  </div>
+  <div class="legend">
+    <span><i class="dot dot--available"></i> Ledig</span>
+    <span><i class="dot dot--busy"></i> Upptagen</span>
+  </div>
+</div>
+<script>
+var IMAGE_SRC = "Kontoret.png";
+var IMAGE_WIDTH = 649;
+var IMAGE_HEIGHT = 472;
+
+var STATUS_LABEL = { available: "Ledig", busy: "Upptagen" };
+
+var WORKSPACES = [
+  {
+    id: "barcelona", name: "Barcelona",
+    x: 340, y: 140, width: 55, height: 45,
+    bookingUrl: "https://example.com/booking/barcelona",
+    status: "available"
+  },
+  {
+    id: "naples", name: "Naples",
+    x: 340, y: 205, width: 55, height: 45,
+    bookingUrl: "https://example.com/booking/naples",
+    status: "busy"
+  }
+];
+
+var activeFilter = "all";
+var map = document.getElementById("map");
+
+var img = document.createElement("img");
+img.src = IMAGE_SRC;
+img.alt = "Kontorsplanritning";
+img.draggable = false;
+map.appendChild(img);
+
+img.onerror = function() {
+  map.innerHTML = '<p class="error">Kunde inte ladda bild: ' + IMAGE_SRC + '</p>';
+};
+
+function render() {
+  var existing = document.querySelectorAll(".hotspot");
+  for (var i = 0; i < existing.length; i++) existing[i].remove();
+
+  var scale = map.clientWidth / IMAGE_WIDTH;
+  map.style.height = (IMAGE_HEIGHT * scale) + "px";
+
+  var filtered = WORKSPACES.filter(function(ws) {
+    return activeFilter === "all" || ws.status === activeFilter;
+  });
+
+  filtered.forEach(function(ws) {
+    var a = document.createElement("a");
+    a.className = "hotspot hotspot--" + ws.status;
+    a.href = ws.bookingUrl;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    a.setAttribute("aria-label", "Boka " + ws.name + " \u2014 " + STATUS_LABEL[ws.status]);
+    a.style.left = (ws.x * scale) + "px";
+    a.style.top = (ws.y * scale) + "px";
+    a.style.width = (ws.width * scale) + "px";
+    a.style.height = (ws.height * scale) + "px";
+
+    var tip = document.createElement("span");
+    tip.className = "tooltip";
+    tip.textContent = ws.name + " \u2014 " + STATUS_LABEL[ws.status];
+    a.appendChild(tip);
+
+    map.appendChild(a);
+  });
+}
+
+// Filter buttons
+document.getElementById("filters").addEventListener("click", function(e) {
+  var btn = e.target;
+  if (!btn.dataset.filter) return;
+  activeFilter = btn.dataset.filter;
+  var buttons = document.querySelectorAll(".filter-btn");
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].className = "filter-btn" + (buttons[i].dataset.filter === activeFilter ? " filter-btn--active" : "");
+  }
+  render();
+});
+
+img.onload = render;
+window.addEventListener("resize", render);
+</script>
+</body>
+</html>

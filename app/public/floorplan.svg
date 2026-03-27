@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <rect width="1200" height="800" fill="#fafafa" stroke="#ddd" stroke-width="2"/>
+
+  <!-- Grid lines -->
+  <g stroke="#eee" stroke-width="1">
+    <line x1="0" y1="200" x2="1200" y2="200"/>
+    <line x1="0" y1="400" x2="1200" y2="400"/>
+    <line x1="0" y1="600" x2="1200" y2="600"/>
+    <line x1="400" y1="0" x2="400" y2="800"/>
+    <line x1="700" y1="0" x2="700" y2="800"/>
+    <line x1="900" y1="0" x2="900" y2="800"/>
+  </g>
+
+  <!-- Open Space area -->
+  <rect x="40" y="80" width="320" height="230" fill="#f0f7ff" stroke="#c4d9f2" stroke-width="1" rx="4"/>
+  <text x="200" y="65" text-anchor="middle" font-size="14" fill="#6b7280" font-family="Segoe UI, sans-serif" font-weight="600">OPEN SPACE</text>
+
+  <!-- Desks in Open Space row 1 -->
+  <rect x="80" y="120" width="100" height="60" fill="#e8f0fe" stroke="#b0c4de" stroke-width="1" rx="3"/>
+  <text x="130" y="155" text-anchor="middle" font-size="11" fill="#4a5568" font-family="Segoe UI, sans-serif">A1</text>
+
+  <rect x="200" y="120" width="100" height="60" fill="#e8f0fe" stroke="#b0c4de" stroke-width="1" rx="3"/>
+  <text x="250" y="155" text-anchor="middle" font-size="11" fill="#4a5568" font-family="Segoe UI, sans-serif">A2</text>
+
+  <!-- Quiet Zone area -->
+  <rect x="40" y="260" width="320" height="230" fill="#f0fdf4" stroke="#bbdfc8" stroke-width="1" rx="4"/>
+  <text x="200" y="285" text-anchor="middle" font-size="14" fill="#6b7280" font-family="Segoe UI, sans-serif" font-weight="600">QUIET ZONE</text>
+
+  <!-- Desks in Quiet Zone -->
+  <rect x="80" y="300" width="100" height="60" fill="#e6f5ec" stroke="#9ec5a8" stroke-width="1" rx="3"/>
+  <text x="130" y="335" text-anchor="middle" font-size="11" fill="#4a5568" font-family="Segoe UI, sans-serif">B1</text>
+
+  <rect x="200" y="300" width="100" height="60" fill="#e6f5ec" stroke="#9ec5a8" stroke-width="1" rx="3"/>
+  <text x="250" y="335" text-anchor="middle" font-size="11" fill="#4a5568" font-family="Segoe UI, sans-serif">B2</text>
+
+  <!-- Meeting Rooms area -->
+  <rect x="440" y="140" width="220" height="200" fill="#fef3f2" stroke="#f5c6c2" stroke-width="1" rx="4"/>
+  <text x="550" y="170" text-anchor="middle" font-size="14" fill="#6b7280" font-family="Segoe UI, sans-serif" font-weight="600">MEETING ROOMS</text>
+
+  <!-- Meeting room C1 -->
+  <rect x="500" y="200" width="140" height="80" fill="#fde8e7" stroke="#f0a8a4" stroke-width="1" rx="3"/>
+  <text x="570" y="245" text-anchor="middle" font-size="11" fill="#4a5568" font-family="Segoe UI, sans-serif">C1</text>
+  <!-- Table in meeting room -->
+  <rect x="540" y="225" width="60" height="30" fill="#f5c6c2" rx="3" opacity="0.5"/>
+
+  <!-- Focus Rooms area -->
+  <rect x="710" y="100" width="180" height="180" fill="#fefce8" stroke="#e5dba0" stroke-width="1" rx="4"/>
+  <text x="800" y="130" text-anchor="middle" font-size="14" fill="#6b7280" font-family="Segoe UI, sans-serif" font-weight="600">FOCUS ROOMS</text>
+
+  <!-- Focus room D1 -->
+  <rect x="750" y="150" width="80" height="60" fill="#fef9c3" stroke="#d4c85c" stroke-width="1" rx="3"/>
+  <text x="790" y="185" text-anchor="middle" font-size="11" fill="#4a5568" font-family="Segoe UI, sans-serif">D1</text>
+
+  <!-- Kitchen / common area -->
+  <rect x="440" y="420" width="460" height="200" fill="#f5f3ff" stroke="#d4c4f5" stroke-width="1" rx="4"/>
+  <text x="670" y="450" text-anchor="middle" font-size="14" fill="#6b7280" font-family="Segoe UI, sans-serif" font-weight="600">KITCHEN / COMMON AREA</text>
+  <!-- Tables -->
+  <circle cx="550" cy="530" r="25" fill="#ede9fe" stroke="#c4b5fd"/>
+  <circle cx="670" cy="530" r="25" fill="#ede9fe" stroke="#c4b5fd"/>
+  <circle cx="790" cy="530" r="25" fill="#ede9fe" stroke="#c4b5fd"/>
+
+  <!-- Hallway -->
+  <rect x="40" y="530" width="320" height="60" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1" rx="2"/>
+  <text x="200" y="565" text-anchor="middle" font-size="12" fill="#9ca3af" font-family="Segoe UI, sans-serif">HALLWAY</text>
+
+  <!-- Entrance -->
+  <rect x="40" y="700" width="120" height="60" fill="#fff" stroke="#9ca3af" stroke-width="2" rx="4"/>
+  <text x="100" y="735" text-anchor="middle" font-size="12" fill="#6b7280" font-family="Segoe UI, sans-serif" font-weight="500">ENTRANCE</text>
+
+  <!-- WC -->
+  <rect x="950" y="100" width="100" height="80" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="4"/>
+  <text x="1000" y="145" text-anchor="middle" font-size="12" fill="#9ca3af" font-family="Segoe UI, sans-serif">WC</text>
+
+  <!-- Elevator -->
+  <rect x="950" y="220" width="100" height="80" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="4"/>
+  <text x="1000" y="265" text-anchor="middle" font-size="12" fill="#9ca3af" font-family="Segoe UI, sans-serif">ELEVATOR</text>
+</svg>
